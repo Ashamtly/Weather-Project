@@ -81,3 +81,11 @@ formCity.addEventListener("submit", yourCity);
 let locationButton = document.querySelector("#your-location");
 locationButton.addEventListener("click", getPosition);
 
+let timeColor = new Date().getHours();
+if (timeColor < 12) {
+    document.getElementById("app-wrapper").style.backgroundColor = "#65B9D3";
+} else if (timeColor < 18) {
+    document.getElementById("app-wrapper").style.backgroundColor = "#F7CA7D";
+} else {
+    document.getElementById("app-wrapper").style.backgroundColor = "#2E4F6B";
+}
