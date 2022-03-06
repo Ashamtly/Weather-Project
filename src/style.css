@@ -34,6 +34,9 @@ ul {
 .weather-icon {
   font-size: 60px;
 }
+#conditions::first-letter {
+  text-transform: capitalize;
+}
 .details {
   margin-top: 90px;
   font-size: 16px;
