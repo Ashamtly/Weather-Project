@@ -49,7 +49,7 @@ function showWeather(response){
     let tempShown = Math.round(response.data.main.temp);
     localTemp.innerHTML = tempShown + "°C";
     let weatherDescription = document.querySelector("#conditions");
-    weatherDescription.innerHTML = response.data.weather[0].main;
+    weatherDescription.innerHTML = response.data.weather[0].description;
     let humidityPercentage = document.querySelector("#humid");
     let humid = response.data.main.humidity;
     humidityPercentage.innerHTML = `Humidity: ${humid}%`;
@@ -59,6 +59,7 @@ function showWeather(response){
     let Icon = document.querySelector("#weather-icon"); 
     let weartherPic = response.data.weather[0].icon;
     Icon.setAttribute("src", `http://openweathermap.org/img/wn/${weartherPic}@2x.png`)
+    celcius = Math.round(response.data.main.temp);
 }
 
 function searchPosition(position){
@@ -91,7 +92,7 @@ function defaultWeather(response){
   let defaultCity = document.querySelector("#shown-city");
   defaultCity.innerHTML = response.data.name;
   let defaultWeather = document.querySelector("#conditions");
-  defaultWeather.innerHTML = response.data.weather[0].main;
+  defaultWeather.innerHTML = response.data.weather[0].description;
   let humidStandar = document.querySelector("#humid");
   humidStandar.innerHTML = "Humidity: " + response.data.main.humidity + "%";
   let standarWind = document.querySelector("#wind-speed");
@@ -99,6 +100,22 @@ function defaultWeather(response){
   let weatherIcon = document.querySelector("#weather-icon"); 
   let weartherSymbol = response.data.weather[0].icon;
   weatherIcon.setAttribute("src", `http://openweathermap.org/img/wn/${weartherSymbol}@2x.png`)
+  celcius = Math.round(response.data.main.temp);
+}
+
+function showFarenheit (event){
+    event.preventDefault();
+    let temp = document.querySelector("span");
+    let celTemp = celcius
+    let farenTemp = (celTemp * 9)/5 + 32;
+    temp.innerHTML = Math.round(farenTemp)+"°F";
+}
+
+function showCelcius (event){
+    event.preventDefault();
+    let temp = document.querySelector("span");
+    let celTemp = celcius;
+    temp.innerHTML = celTemp+"°C";
 }
 
 let currentDate = document.querySelector("h3.dateTime");
@@ -113,5 +130,12 @@ locationButton.addEventListener("click", getPosition);
 let apiKey = "0401d75eba16100d78dca41d3674fcdc";
 let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=Mexico&units=metric&appid=${apiKey}`;
 axios.get(apiUrl).then(defaultWeather);
+
+let celcius = null;
+
+let changeFarenheit = document.querySelector("#farenheit-units");
+changeFarenheit.addEventListener("click", showFarenheit);
+let changeCelcius = document.querySelector("#celcius-units");
+changeCelcius.addEventListener("click", showCelcius);
 
 appColor();
