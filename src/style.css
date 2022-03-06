@@ -9,6 +9,7 @@ ul {
   margin: 30px auto;
   padding: 20px;
   color: #f0f0f0;
+  margin-bottom: 0%;
 }
 #shown-city {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
@@ -53,6 +54,8 @@ ul {
 }
 footer {
   text-align: center;
-  margin-top: 10px;
   color: gray;
+}
+a {
+  text-decoration: none;
 }
