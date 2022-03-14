@@ -60,6 +60,7 @@ function showWeather(response){
     let weartherPic = response.data.weather[0].icon;
     Icon.setAttribute("src", `http://openweathermap.org/img/wn/${weartherPic}@2x.png`)
     celcius = Math.round(response.data.main.temp);
+    forecastCoords(response.data.coord);
 }
 
 function searchPosition(position){
@@ -101,6 +102,63 @@ function defaultWeather(response){
   let weartherSymbol = response.data.weather[0].icon;
   weatherIcon.setAttribute("src", `http://openweathermap.org/img/wn/${weartherSymbol}@2x.png`)
   celcius = Math.round(response.data.main.temp);
+  forecastCoords(response.data.coord);
+}
+
+function forecastCoords(coordinates){
+  let lon = coordinates.lon;
+  let lat = coordinates.lat;
+  console.log(lon);
+  console.log(lat);
+  apiCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+  console.log (apiCall);
+  axios.get(apiCall).then(showForecast);
+}
+
+function showForecast(response){
+  let forcast = (response.data.daily);
+   let forcastElement = document.querySelector("#forecast");
+
+   let forcastHTML = `<ul class="list-group list-group-flush">`;
+   forcast.forEach(function (forcastDay, index){
+    if (index < 4){
+   forcastHTML = forcastHTML + `
+            <li class="list-group-item" id="day2-forecast">
+              <div class="row day1">
+                <div class="col-4 day">
+                  ${forcastDate(forcastDay.dt)}
+                </div>
+                <div class="col-4 weather">
+                  ${forcastDay.weather[0].main}
+                </div>
+                <div class="col-4 Temp">
+                  ${Math.round(forcastDay.temp.max)}°/${Math.round(forcastDay.temp.min)}°
+                </div>
+              </div>
+            </li>
+   `;
+   forcastElement.innerHTML = forcastHTML + `   
+   </ul>
+          <a href="#" class="btn btn-success">5 days forecast</a>
+     </div>
+    </div>`;
+    }
+  })
+}
+
+function forcastDate(timestamp){
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return days[day];
 }
 
 function showFarenheit (event){
@@ -117,6 +175,7 @@ function showCelcius (event){
     let celTemp = celcius;
     temp.innerHTML = celTemp+"°C";
 }
+
 
 let currentDate = document.querySelector("h3.dateTime");
 currentDate.innerHTML = formatDate();
